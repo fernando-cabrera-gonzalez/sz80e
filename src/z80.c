@@ -181,7 +181,7 @@ void z80_init(Z80InitData* z80InitData) {
     if (z80InitData->ramFileName) {
         if (!hasFileExtension(z80InitData->ramFileName, ".z80") && 
             !hasFileExtension(z80InitData->ramFileName, ".sna")) {
-            utl_loadBinary("./bin/zexdoc.com", z80InitData->memoryPtr);  
+            utl_loadBinary(z80InitData->ramFileName, z80InitData->memoryPtr);  
         } else {        
             utl_loadBinary("./bin/rom.bin", z80InitData->memoryPtr);    
             if (hasFileExtension(z80InitData->ramFileName, ".z80")) {
