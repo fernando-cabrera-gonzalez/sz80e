@@ -96,9 +96,17 @@ bool dbg_addBreakPoint() {
 }
 
 bool dbg_hasBreakPoint(const uint16_t address) {
-    for (int i = 0; i < MAX_BREAK_POINT_LIST_LENGTH; i++) {
-        if (brList[i] != 0 && brList[i] == address) {
-            return true;
+    if (brListLength == 0) {
+        return false;
+    }
+
+    int numBreakPointsFound = 0;
+    for (int i = 0; i < MAX_BREAK_POINT_LIST_LENGTH && numBreakPointsFound < brListLength; i++) {
+        if (brList[i] != 0) {
+            numBreakPointsFound++;
+            if (brList[i] == address) {
+                return true;
+            }
         }
     }
 
