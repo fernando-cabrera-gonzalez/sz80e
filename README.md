@@ -11,6 +11,7 @@ This project implements an emulator for the Zilog Z80 microprocessor, written in
 - Includes tests and debugging utilities.
 - Compatible with binaries and [.Z80](https://worldofspectrum.org/faq/reference/z80format.htm) / [.SNA](https://worldofspectrum.org/faq/reference/formats.htm) snapshots.
 - Passes all ZEXDOC tests (see https://github.com/agn453/ZEXALL), which are included.
+- Visual Studio Code tasks provided for building and debugging.
 
 ## Project Structure
 
@@ -26,6 +27,7 @@ This project implements an emulator for the Zilog Z80 microprocessor, written in
 - LD for linking.
 - AR for building the static library (optional).
 - Compatible operating system (Windows or Linux).
+- Recommended: GNU make and Visual Studio Code with C/C++ extension by Microsoft.
 
 ## Standalone
 
@@ -44,7 +46,6 @@ gcc -g ./src/main.c ./src/dbg.c ./src/mem_test.c ./src/opcodes.c ./src/opcodes_b
 z80emu.exe [binary / .z80 / .sna file]    (Windows)
 z80emu     [binary / .z80 / .sna file]    (Linux)
 ```
-
 ## Static library + TEST
 
 Build the Z80 core as a static library that can be linked from external programs (see TEST):
@@ -72,7 +73,6 @@ gcc ./src/main.c ./src/mem_test.c -I./inc -L. -lz80emu -o ./z80emu_test
 z80emu_test.exe [binary / .z80 / .sna file]    (Windows)
 z80emu_test     [binary / .z80 / .sna file]    (Linux)
 ```
-
 ## How to add the Z80 core to your projects
 
 If you want to use the Z80 core in your personal projects follow these steps:
@@ -100,6 +100,18 @@ If you want to use the Z80 core in your personal projects follow these steps:
     - Call the z80_update() function every time you want to update the emulator state. It will return the number of cycles elapsed.
       Optionally, if memory contention is present, you can add the additional number of contended cycles to the total, as in the example.
 
+## Debugger
+
+At any point during execution, you can press ESC to invoke the debugger. Once inside, the following commands are available:
+```text
+help             List avalilable commands.
+br+ <address>    Add a breakpoint at the specified address.
+br- <address>    Remove breakpoint at the specified address.
+brl              List breakpoints.
+z80              Show z80 state.
+run [num_steps]  Run N z80 instructions (resume if no num_steps).
+ml <address>     List contents of memory at specified address.
+```
 ## Author
 
 Fernando Cabrera González
