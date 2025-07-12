@@ -7,12 +7,12 @@
 
 Command commands[NUM_COMMANDS] = {
     {"help", "List avalilable commands.", &dbg_listCommands},
-    {"br+", "Adds a breakpoint at the specified address.", &dbg_addBreakPoint},
-    {"br-", "Removes breakpoint at the specified address.", &dbg_removeBreakPoint},
+    {"br+", "Add a breakpoint at the specified address.", &dbg_addBreakPoint},
+    {"br-", "Remove breakpoint at the specified address.", &dbg_removeBreakPoint},
     {"brl", "List breakpoints.", &dbg_listBreakPoints},
     {"z80", "Show z80 state.", &dbg_showZ80State},
     {"run", "Run N z80 instructions (resume if no num_steps).", &dbg_run},
-    {"ml", "Lists contents of memory at specified address.", &dbg_ml}
+    {"ml", "List contents of memory at specified address.", &dbg_ml}
 };
 
 bool dbg_requested = false;
