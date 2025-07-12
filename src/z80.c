@@ -60,7 +60,7 @@ void loadZ80(char* fileName, uint8_t* dst) {
     uint8_t* bfr = (uint8_t *) calloc(48 * 1024, sizeof(uint8_t));
     uint16_t dataIndex = 0;
 
-    long fileSize = utl_loadBinary(fileName, bfr);
+    long fileSize = utl_load_binary(fileName, bfr);
 
     // first header
     z80.a   = bfr[0];
@@ -114,7 +114,7 @@ void loadZ80(char* fileName, uint8_t* dst) {
 
 void loadSNA(char* fileName, uint8_t* dst) {
     uint8_t* bfr = (uint8_t *) calloc(64 * 1024, sizeof(uint8_t));
-    utl_loadBinary(fileName, bfr);
+    utl_load_binary(fileName, bfr);
 
     // header
     z80.i   = bfr[0];
@@ -179,19 +179,19 @@ void z80_init(Z80InitData* z80InitData) {
     z80_reset(z80);
 
     if (z80InitData->ramFileName) {
-        if (!hasFileExtension(z80InitData->ramFileName, ".z80") && 
-            !hasFileExtension(z80InitData->ramFileName, ".sna")) {
-            utl_loadBinary(z80InitData->ramFileName, z80InitData->memoryPtr);  
+        if (!utl_has_file_extension(z80InitData->ramFileName, ".z80") && 
+            !utl_has_file_extension(z80InitData->ramFileName, ".sna")) {
+            utl_load_binary(z80InitData->ramFileName, z80InitData->memoryPtr);  
         } else {        
-            utl_loadBinary("./bin/rom.bin", z80InitData->memoryPtr);    
-            if (hasFileExtension(z80InitData->ramFileName, ".z80")) {
+            utl_load_binary("./bin/rom.bin", z80InitData->memoryPtr);    
+            if (utl_has_file_extension(z80InitData->ramFileName, ".z80")) {
                 loadZ80(z80InitData->ramFileName, z80InitData->memoryPtr);
-            } else if (hasFileExtension(z80InitData->ramFileName, ".sna")) {
+            } else if (utl_has_file_extension(z80InitData->ramFileName, ".sna")) {
                 loadSNA(z80InitData->ramFileName, z80InitData->memoryPtr);
             }
         }
     } else {
-        utl_loadBinary("./bin/rom.bin", z80InitData->memoryPtr);
+        utl_load_binary("./bin/rom.bin", z80InitData->memoryPtr);
     }
 
     memReadFunc = z80InitData->memReadFunc;
@@ -251,7 +251,7 @@ Opcode* z80_fetchAndDecode() {
 Opcode* z80_step() {
     Opcode* opcodePtr;
     
-    #ifdef DEBUG
+    #if DEBUG_LEVEL == DEBUG_LEVEL_FULL
     uint16_t oldPC = z80.pc;
     z80_printState();
     #endif
@@ -271,7 +271,7 @@ Opcode* z80_step() {
         numCycles = condition ? opcodePtr -> numCycles : opcodePtr->numCyclesNotMet;
     }
 
-    #ifdef DEBUG
+    #if DEBUG_LEVEL == DEBUG_LEVEL_FULL
     z80_printOpcode(opcodePtr, oldPC, 0);
     #endif
 
@@ -281,26 +281,32 @@ Opcode* z80_step() {
 uint8_t z80_update() {
     numCycles = 0;
 
+    #if DEBUG_LEVEL == DEBUG_LEVEL_USER
     if (dbg_requested) {
         dbg_requested = false;
         puts("");
         dbg_readCommand();
     }
+    #endif
 
     if (!z80._halt) {
+        #if DEBUG_LEVEL == DEBUG_LEVEL_USER
         if (dbg_hasBreakPoint(z80.pc)) {
             printf("Stopped at PC = 0x%04x...\n", z80.pc);
             dbg_readCommand();
         }
+        #endif
 
         opcodePtr = z80_step();
         
+        #if DEBUG_LEVEL == DEBUG_LEVEL_USER
         if (numSteps != -1) {
             if (--numSteps == 0) {
                 numSteps = -1;
                 dbg_readCommand();
             }
         }
+        #endif
     }
 
     if (z80._int) {
@@ -313,14 +319,14 @@ uint8_t z80_update() {
             push(z80.pc);
             switch(z80.imode) {
                 case 1:
-                    #ifdef DEBUG
+                    #if DEBUG_LEVEL == DEBUG_LEVEL_FULL
                     printf("\n*************** INT 1! PC = 0x%02x -> 0x0038\n\n", z80.pc);
                     #endif
                     z80.pc = 0x0038;
                     break;
                 case 2:
                     uint16_t ivtAddress = z80.i << 8;
-                    #ifdef DEBUG
+                    #if DEBUG_LEVEL == DEBUG_LEVEL_FULL
                     printf("\n*************** INT 2! PC = 0x%02x -> 0x%04x\n\n", z80.pc, memReadFunc(ivtAddress) + (memReadFunc(ivtAddress + 1) << 8));
                     #endif
                     z80.pc = memReadFunc(ivtAddress) + (memReadFunc(ivtAddress + 1) << 8);
@@ -334,9 +340,11 @@ uint8_t z80_update() {
     return numCycles;
 }
 
+#if DEBUG_LEVEL == DEBUG_LEVEL_USER
 void z80_debug() {
     dbg_requested = true;
 }
+#endif
 
 void z80_setInt() {
     z80._int = true;

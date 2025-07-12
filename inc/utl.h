@@ -3,10 +3,8 @@
 
 #include <stdint.h>
 
-int utl_loadBinary(const char* fileName, uint8_t* dst);
-int utl_saveBinary(const char* fileName, uint8_t* src);
-bool key_pressed();
-int get_key();
-bool hasFileExtension(const char *fileName, const char *extension);
+int utl_load_binary(const char* fileName, uint8_t* dst);
+int utl_save_binary(const char* fileName, uint8_t* src);
+bool utl_has_file_extension(const char *fileName, const char *extension);
 
 #endif

@@ -1,9 +1,15 @@
 #ifndef Z80_PUBLIC_H
 #define Z80_PUBLIC_H
 
+#include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 
-// #define DEBUG
+#define DEBUG_LEVEL_NONE    0
+#define DEBUG_LEVEL_USER    1
+#define DEBUG_LEVEL_FULL    2
+
+#define DEBUG_LEVEL DEBUG_LEVEL_USER
 
     /* ================================================================ */
     /*                          MEM INTERFACE                           */
@@ -49,7 +55,9 @@ typedef struct {
 
 void z80_init(Z80InitData* initData);
 uint8_t z80_update();
+#if DEBUG_LEVEL == DEBUG_LEVEL_USER
 void z80_debug();
+#endif
 void z80_setInt();
 bool z80_isHalted();
 

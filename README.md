@@ -78,14 +78,15 @@ z80emu_test     [binary / .z80 / .sna file]    (Linux)
 If you want to use the Z80 core in your personal projects follow these steps:
 1) Build the static library.
 
-2) Add to your project both the library and the public header file 'z80_public.h' (for access to the main emulator features).
+2) Add to your project both the library and the public header file 'z80_public.h' (for access to the main emulator features).<br>
+   Optionally, you can also add 'utl_public.h' to your project, which provides a keyboard handler and triggers the user debugger when 'd' is pressed.
 
-3) You will need to implement a memory model for the Z80 to work (see mem_test.h, mem_test.c and main.c for an example):
+3) You will need to implement a memory model for the Z80 to work (see 'mem_test.h', mem_test.c and main.c for an example):
     - Provide a 64k memory buffer (16k ROM + 48k RAM).
     - Implement the methods of the memory interface, provided in the 'MEM INTERFACE' section of 'z80_public.h'.
 
 4) From your project you will need to call the 2 functions in the 'Z80 INTERFACE' section of 'z80_public.h':
-    - Call z80_init() at the beginning for initializing the z80 emulator providing:
+    - Call 'z80_init()' at the beginning for initializing the z80 emulator providing:
         - A file to load in memory in one of these formats and that can be provided in the first argument of command line:
             - A binary that will be loaded at address 0x000 of the memory.
             - A .z80 or a .sna file with a snapshot that will be loaded at address 0x4000 or higher, keeping the ROM at address from 0x000 to 0x3FFF.
@@ -97,10 +98,18 @@ If you want to use the Z80 core in your personal projects follow these steps:
             - Pointers for I/O read and write functions (see 'I/O INTERFACE' in 'z80_public.h')
             - Pointer to a render function that will be called every time an interrupt is triggered.
             - A start address, that will be used as the initial value for the PC.
-    - Call the z80_update() function every time you want to update the emulator state. It will return the number of cycles elapsed.
+    - Optionally, call 'utl_check_keyboard()' which will read the keyboard, triggering the user debugger if 'd' is pressed (it also returns the key pressed).
+    - Call the 'z80_update()' function every time you want to update the emulator state. It will return the number of cycles elapsed.
       Optionally, if memory contention is present, you can add the additional number of contended cycles to the total, as in the example.
 
 ## Debugger
+
+The emulator comes with an internal debugger that has 3 possible levels:
+
+#### - DEBUG_LEVEL_NONE: 
+Best performance, no debugging at all.
+
+#### - DEBUG_LEVEL_USER:
 
 At any point during execution, you can press ESC to invoke the debugger. Once inside, the following commands are available:
 ```text
@@ -112,6 +121,11 @@ z80              Show z80 state.
 run [num_steps]  Run N z80 instructions (resume if no num_steps).
 ml  <address>    List contents of memory at specified address.
 ```
+
+#### - DEBUG_LEVEL_FULL: 
+Outputs every single opcode and interrupt info.<br>
+Warning: keys can become non-responding when this level is set. Redirect stdout to a file, but be careful... they'll grow fast!
+
 ## Author
 
 Fernando Cabrera González

@@ -16,6 +16,7 @@
                 "./src/opcodes_iy.c",
                 "./src/opcodes_main.c",
                 "./src/utl.c",
+                "./src/utl_public.c",
                 "./src/z80.c",
                 "-I./inc",
                 "-o",
@@ -45,6 +46,7 @@
                 "./src/opcodes_iy.c",
                 "./src/opcodes_main.c",
                 "./src/utl.c",
+                "./src/utl_public.c",
                 "./src/z80.c",
                 "-I./inc"
             ],
@@ -57,7 +59,7 @@
         {
             "type": "shell",
             "label": "Build z80emu static library",
-            "dependsOn": "Comnpile z80emu static library",
+            "dependsOn": "Compile z80emu static library",
             "command": "ar",
             "args": [
                 "rcs",
@@ -70,6 +72,7 @@
                 "opcodes_iy.o",
                 "opcodes_main.o",
                 "utl.o",
+                "utl_public.o",                
                 "z80.o"
             ],
             "problemMatcher": [],

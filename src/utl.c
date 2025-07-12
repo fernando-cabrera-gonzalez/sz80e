@@ -1,23 +1,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#ifdef _WIN32
-#include <conio.h>
-#else
-#include <termios.h>
-#include <unistd.h>
-#include <fcntl.h>
-#endif
-
-long utl_loadBinary(const char* fileName, uint8_t* dst) {
+long utl_load_binary(const char* fileName, uint8_t* dst) {
     FILE *f = fopen(fileName, "rb");
     long fileSize;
 
     if (f == NULL) {
-        fprintf(stderr, "Error opening file %s from utl_loadBinary()\n", fileName);
+        fprintf(stderr, "Error opening file %s from utl_load_binary()\n", fileName);
         return 0;
     }
 
@@ -31,11 +22,11 @@ long utl_loadBinary(const char* fileName, uint8_t* dst) {
     return fileSize;
 }
 
-long utl_saveBinary(const char* fileName, uint8_t* src) {
+long utl_save_binary(const char* fileName, uint8_t* src) {
     FILE *f = fopen(fileName, "wb");
 
     if (f == NULL) {
-        fprintf(stderr, "Error opening file %s from utl_saveBinary()\n", fileName);
+        fprintf(stderr, "Error opening file %s from utl_save_binary()\n", fileName);
         return 0;
     }
 
@@ -50,46 +41,7 @@ long utl_saveBinary(const char* fileName, uint8_t* src) {
     return 1;
 }
 
-// Función para comprobar si hay una tecla pulsada
-int key_pressed() {
-#ifdef _WIN32
-    return kbhit();
-#else
-    struct termios oldt, newt;
-    int ch;
-    int oldf;
-
-    tcgetattr(STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
-
-    ch = getchar();
-
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-    fcntl(STDIN_FILENO, F_SETFL, oldf);
-
-    if(ch != EOF) {
-        ungetc(ch, stdin);
-        return 1;
-    }
-
-    return 0;
-#endif
-}
-
-// Función para leer la tecla pulsada
-int get_key() {
-#ifdef _WIN32
-    return getch();
-#else
-    return getchar();
-#endif
-}
-
-bool hasFileExtension(const char *fileName, const char *extension) {
+bool utl_has_file_extension(const char *fileName, const char *extension) {
     size_t fileLen = strlen(fileName);
     size_t extLen = strlen(extension);
 
