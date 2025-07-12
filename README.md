@@ -110,7 +110,7 @@ br- <address>    Remove breakpoint at the specified address.
 brl              List breakpoints.
 z80              Show z80 state.
 run [num_steps]  Run N z80 instructions (resume if no num_steps).
-ml <address>     List contents of memory at specified address.
+ml  <address>    List contents of memory at specified address.
 ```
 ## Author
 
