@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug C Program",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/z80emu_test",
+            "args": [".\\bin\\zexdoc.com"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb"
+        }
+    ]
+}

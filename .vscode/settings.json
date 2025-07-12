@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "opcodes.h": "c",
+        "mem_test.h": "c",
+        "string.h": "c",
+        "utl.h": "c",
+        "opcodes_iy.h": "c",
+        "stdbool.h": "c",
+        "typeinfo": "c",
+        "z80.h": "c",
+        "opcodes_bit.h": "c",
+        "windows.h": "c",
+        "stdio.h": "c",
+        "opcodes_main.h": "c",
+        "cstdlib": "c",
+        "z80_public.h": "c"
+    },
+    "makefile.configureOnOpen": false
+}
