@@ -1210,9 +1210,9 @@ bool call_z_nn() {
     return executeConditionalCall(z80.flags.z);
 }
 
-void call_nn() {
+void call_nn() {  
     // calls to CP/M functions (must be replaced for ours)
-    if (memReadFunc(z80.pc - 2) == 0x05) {
+    if (memReadFunc(z80.pc - 2) == 0x05 && memReadFunc(z80.pc - 1) == 0x00) {
         if (z80.c == 0x02) {
             // print a character
             printf("%c", z80.e);

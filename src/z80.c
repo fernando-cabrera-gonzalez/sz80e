@@ -70,8 +70,7 @@ void loadZ80(char* fileName, uint8_t* dst) {
     z80.pc  = bfr[6] + bfr[7] * 256;
     z80.sp  = bfr[8] + bfr[9] * 256;
     z80.i   = bfr[10];
-    z80.r   = bfr[11];
-    z80.r  |= bfr[12] << 7;
+    z80.r = (bfr[11] & 0x7F) | ((bfr[12] & 0x01) << 7);
 
     z80.de  = bfr[13] + bfr[14] * 256;
     z80.bc2 = bfr[15] + bfr[16] * 256;
@@ -248,6 +247,10 @@ Opcode* z80_fetchAndDecode() {
     }    
 }
 
+static inline void z80_inc_r() {
+    z80.r = (z80.r & 0x80) | ((z80.r + 1) & 0x7f);
+}
+
 Opcode* z80_step() {
     Opcode* opcodePtr;
     
@@ -256,12 +259,9 @@ Opcode* z80_step() {
     z80_printState();
     #endif
 
-    uint8_t bit7 = z80.r & 0x80;
-    z80.r++;
-    z80.r |= bit7;
-
     opcodePtr = z80_fetchAndDecode();
     z80.pc += opcodePtr->numBytes;
+    z80_inc_r();
 
     if (opcodePtr->numCyclesNotMet == 0) {
         opcodePtr->ptr();
@@ -298,7 +298,7 @@ uint8_t z80_update() {
         #endif
 
         opcodePtr = z80_step();
-        
+
         #if DEBUG_LEVEL == DEBUG_LEVEL_USER
         if (numSteps != -1) {
             if (--numSteps == 0) {
@@ -307,6 +307,8 @@ uint8_t z80_update() {
             }
         }
         #endif
+    } else {
+        z80_inc_r();
     }
 
     if (z80._int) {
@@ -315,7 +317,10 @@ uint8_t z80_update() {
         if (z80._iff1) {
             z80._int = false;
             z80._halt = false;
+            z80._iff1 = false;
+            z80._iff2 = false;
             
+            z80_inc_r();
             push(z80.pc);
             switch(z80.imode) {
                 case 1:
