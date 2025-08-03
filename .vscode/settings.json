@@ -13,7 +13,8 @@
         "stdio.h": "c",
         "opcodes_main.h": "c",
         "cstdlib": "c",
-        "z80_public.h": "c"
+        "z80_public.h": "c",
+        "opcodes_ext.h": "c"
     },
     "makefile.configureOnOpen": false
 }

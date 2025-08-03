@@ -10,6 +10,8 @@
 #include "utl.h"
 #include "z80.h"
 
+#define MEM_BLOCK_LENGTH 16384
+
 Z80 z80;
 uint8_t numCycles;
 
@@ -41,7 +43,8 @@ unsigned int getParity(uint8_t value) {
 }
 
 void uncompressData(uint8_t* src, uint8_t* dst, uint16_t length) {
-    for (int i = 0; i < length; i++) {
+    uint8_t* block_end = dst + MEM_BLOCK_LENGTH;
+    for (int i = 0; i < length && dst < block_end; i++) {
         if (*src == 0xED && *(src + 1) == 0xED) {
             for (int j = 0; j < *(src + 2); j++) {
                 *dst = *(src + 3);
