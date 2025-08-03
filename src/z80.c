@@ -20,6 +20,8 @@ uint16_t notImplementedList[256];
 uint8_t niSize = 0;
  
 Opcode* opcodePtr;
+uint16_t extraPrefixCount;
+uint16_t extraPrefixBytes;
 
 Z80MemReadFunc memReadFunc;
 Z80MemWriteFunc memWriteFunc;
@@ -221,33 +223,76 @@ void z80_reset() {
 }
 
 Opcode* z80_fetchAndDecode() {
-    opcode = memReadFunc(z80.pc);
-    switch(opcode) {
-        case 0xCB:
-            extOpcode = memReadFunc(z80.pc + 1);
-            return &bitOpcodePtrs[extOpcode];
-        case 0xDD:
-            extOpcode = memReadFunc(z80.pc + 1);
-            if (extOpcode != 0xCB) {              
-                return &ixOpcodePtrs[extOpcode];
-            } else {
-                extBitOpcode = memReadFunc(z80.pc + 3);
+    uint8_t op;
+    uint8_t prefix = 0;
+    uint16_t pc = z80.pc;
+
+    extraPrefixCount = 0;
+    extraPrefixBytes = 0;
+    numCycles = 0;
+
+    while (1) {
+        op = memReadFunc(pc++);
+
+        // DD / FD
+        if (op == 0xDD || op == 0xFD) {
+            if (prefix == op) {
+                extraPrefixCount++;
+            }
+            prefix = op;
+            continue;
+        }
+
+        // ED
+        if (op == 0xED) {
+            extOpcode = memReadFunc(pc++);
+            extraPrefixBytes = extraPrefixCount;
+            numCycles = extraPrefixCount * 4;
+            return &extOpcodePtrs[extOpcode];
+        }
+
+        // CB
+        if (op == 0xCB) {
+            if (prefix == 0xDD) {
+                uint8_t disp = memReadFunc(pc++);
+                extBitOpcode = memReadFunc(pc++);
+                extraPrefixBytes = extraPrefixCount;
+                numCycles = extraPrefixCount * 4;
                 return &ixBitOpcodePtrs[extBitOpcode];
             }
-        case 0xED:
-            extOpcode = memReadFunc(z80.pc + 1);
-            return &extOpcodePtrs[extOpcode];
-        case 0xFD:
-            extOpcode = memReadFunc(z80.pc + 1);
-            if (extOpcode != 0xCB) {      
-                return &iyOpcodePtrs[extOpcode];         
-            } else {
-                extBitOpcode = memReadFunc(z80.pc + 3);     
+            if (prefix == 0xFD) {
+                uint8_t disp = memReadFunc(pc++);
+                extBitOpcode = memReadFunc(pc++);
+                extraPrefixBytes = extraPrefixCount;
+                numCycles = extraPrefixCount * 4;
                 return &iyBitOpcodePtrs[extBitOpcode];
-            }        
-        default:
-            return &opcodePtrs[opcode];
-    }    
+            }
+
+            extOpcode = memReadFunc(pc++);
+            extraPrefixBytes = extraPrefixCount; 
+            numCycles = extraPrefixCount * 4;
+            return &bitOpcodePtrs[extOpcode];
+        }
+
+        break;
+    }
+
+    Opcode* instr;
+    if (prefix == 0xDD || prefix == 0xFD) {
+        Opcode* opcode = prefix == 0xDD ? &ixOpcodePtrs[op] : &iyOpcodePtrs[op];
+        if (opcode->ptr != &not_imp) {
+            extraPrefixBytes = extraPrefixCount;
+        } else {
+            extraPrefixBytes = extraPrefixCount + 1;
+        }
+        return opcode;
+    }
+    else instr = &opcodePtrs[op];
+
+    extraPrefixBytes = extraPrefixCount;
+    numCycles = extraPrefixCount * 4;
+
+    return instr;
 }
 
 static inline void z80_inc_r() {
@@ -263,15 +308,15 @@ Opcode* z80_step() {
     #endif
 
     opcodePtr = z80_fetchAndDecode();
-    z80.pc += opcodePtr->numBytes;
+    z80.pc += opcodePtr->numBytes + extraPrefixBytes;
     z80_inc_r();
 
     if (opcodePtr->numCyclesNotMet == 0) {
         opcodePtr->ptr();
-        numCycles = opcodePtr->numCycles;
+        numCycles += opcodePtr->numCycles;
     } else {
         bool condition = opcodePtr->ptrCC();
-        numCycles = condition ? opcodePtr -> numCycles : opcodePtr->numCyclesNotMet;
+        numCycles += condition ? opcodePtr -> numCycles : opcodePtr->numCyclesNotMet;
     }
 
     #if DEBUG_LEVEL == DEBUG_LEVEL_FULL

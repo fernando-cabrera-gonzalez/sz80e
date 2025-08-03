@@ -14,7 +14,8 @@
         "opcodes_main.h": "c",
         "cstdlib": "c",
         "z80_public.h": "c",
-        "opcodes_ext.h": "c"
+        "opcodes_ext.h": "c",
+        "stdint.h": "c"
     },
     "makefile.configureOnOpen": false
 }

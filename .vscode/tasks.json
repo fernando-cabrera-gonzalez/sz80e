@@ -84,6 +84,7 @@
         {
             "type": "shell",
             "label": "Build z80emu library test executable",
+            "dependsOn": "Build z80emu static library",
             "command": "gcc",
             "args": [
                 "-g",
