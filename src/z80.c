@@ -254,14 +254,14 @@ Opcode* z80_fetchAndDecode() {
         // CB
         if (op == 0xCB) {
             if (prefix == 0xDD) {
-                uint8_t disp = memReadFunc(pc++);
+                pc++;
                 extBitOpcode = memReadFunc(pc++);
                 extraPrefixBytes = extraPrefixCount;
                 numCycles = extraPrefixCount * 4;
                 return &ixBitOpcodePtrs[extBitOpcode];
             }
             if (prefix == 0xFD) {
-                uint8_t disp = memReadFunc(pc++);
+                pc++;
                 extBitOpcode = memReadFunc(pc++);
                 extraPrefixBytes = extraPrefixCount;
                 numCycles = extraPrefixCount * 4;

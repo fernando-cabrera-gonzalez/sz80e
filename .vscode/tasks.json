@@ -19,6 +19,7 @@
                 "./src/utl_public.c",
                 "./src/z80.c",
                 "-I./inc",
+                "-Wall",
                 "-o",
                 "./z80emu"
             ],
@@ -48,7 +49,8 @@
                 "./src/utl.c",
                 "./src/utl_public.c",
                 "./src/z80.c",
-                "-I./inc"
+                "-I./inc",
+                "-Wall"
             ],
             "problemMatcher": ["$gcc"],
             "group": {
@@ -93,6 +95,7 @@
                 "-I./inc",
                 "-L.",
                 "-lz80emu",
+                "-Wall",
                 "-o",
                 "./z80emu_test"
             ],
