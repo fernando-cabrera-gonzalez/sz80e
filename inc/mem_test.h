@@ -1,6 +1,7 @@
 #ifndef MEM_TEST_H
 #define MEM_TEST_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 extern uint8_t *memory;
