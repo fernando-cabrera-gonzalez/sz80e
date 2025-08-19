@@ -1,3 +1,25 @@
+/*
+ * dbg.c - Debugger Module
+ *
+ * This file implements a simple command-line debugger for the Z80 CPU emulator.
+ * It provides commands for inspecting and controlling the emulation, such as:
+ *   - Listing and managing breakpoints
+ *   - Displaying the Z80 CPU state
+ *   - Running a specified number of instructions
+ *   - Viewing memory contents
+ *   - Listing available debugger commands
+ *
+ * The debugger is interactive and processes user commands in a loop, allowing
+ * step-by-step execution and inspection of the emulated system.
+ *
+ * Main components:
+ *   - Command parsing and dispatch
+ *   - Breakpoint management
+ *   - Z80 state and memory display
+ *
+ * See dbg.h for function declarations and command structure.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

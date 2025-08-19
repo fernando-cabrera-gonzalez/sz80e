@@ -1,3 +1,12 @@
+/*
+ * opcodes_bit.c - Bit Instructions (0xCB Prefix)
+ *
+ * This file defines the opcode table and handlers for the Z80 CPU's bit
+ * manipulation instructions, which are accessed via the 0xCB prefix.
+ *
+ * These include rotate, shift, set, reset, and bit test operations.
+ */
+
 #include "opcodes_bit.h"
 #include "z80.h"
 

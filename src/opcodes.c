@@ -1,3 +1,13 @@
+/*
+ * opcodes.c - Opcode Implementations
+ *
+ * This file contains the implementation of functions for Z80 CPU opcodes,
+ * including arithmetic, logic, and flag operations. These functions are used
+ * by the instruction decoding tables to execute the correct CPU behavior.
+ *
+ * See opcodes_main.c, opcodes_bit.c, etc. for opcode tables.
+ */
+
 #include <stdbool.h>
 
 #include "z80.h"

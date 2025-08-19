@@ -1,3 +1,9 @@
+/*
+ * opcodes_ext.h - Extended Instructions Interface
+ *
+ * Declares the opcode table and function prototypes for 0xED-prefixed instructions.
+ */
+
 #ifndef OPCODES_EXT_H
 #define OPCODES_EXT_H
 

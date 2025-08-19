@@ -1,3 +1,9 @@
+/*
+ * utl.h - Utility Interface
+ *
+ * Declares utility functions for file I/O and filename handling.
+ */
+
 #ifndef UTL_H
 #define UTL_H
 

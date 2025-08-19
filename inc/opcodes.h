@@ -1,3 +1,9 @@
+/*
+ * opcodes.h - Opcode Interface
+ *
+ * Declares types, macros, and function prototypes for Z80 instruction handling.
+ */
+
 #ifndef OPCODES_H
 #define OPCODES_H
 

@@ -1,3 +1,9 @@
+/*
+ * dbg.h - Debugger Interface
+ *
+ * Declares the public API for the interactive debugger, including command handling,
+ * breakpoint management, and CPU/memory inspection functions.
+ */
 
 #ifndef DBG_H
 #define DBG_H

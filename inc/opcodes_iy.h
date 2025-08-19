@@ -1,3 +1,9 @@
+/*
+ * opcodes_iy.h - IY Register Instructions Interface
+ *
+ * Declares the opcode tables and function prototypes for 0xFD-prefixed IY operations.
+ */
+
 #ifndef OPCODES_IY_H
 #define OPCODES_IY_H
 

@@ -1,4 +1,12 @@
-#ifdef _WIN32
+/*
+ * utl_public.c - Cross-Platform Input Utilities
+ *
+ * This file provides cross-platform keyboard input functions for the emulator.
+ * It handles both Windows and POSIX systems, allowing non-blocking key checks
+ * and input polling for interactive emulation.
+ */
+
+ #ifdef _WIN32
 #include <conio.h>
 #else
 #include <termios.h>

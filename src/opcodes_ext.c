@@ -1,3 +1,12 @@
+/*
+ * opcodes_ext.c - Extended Instructions (0xED Prefix)
+ *
+ * This file defines the opcode table and handlers for the Z80 CPU's extended
+ * instructions, which are accessed via the 0xED prefix.
+ *
+ * These include block transfer, I/O, and miscellaneous instructions.
+ */
+
 #include "opcodes_ext.h"
 #include "z80.h"
 

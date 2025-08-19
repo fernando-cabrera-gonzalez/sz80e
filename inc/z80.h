@@ -1,3 +1,9 @@
+/*
+ * z80.h - Core Interface
+ *
+ * Declares the Z80 CPU state structure, register definitions, and core function prototypes.
+ */
+
 #ifndef Z80_H
 #define Z80_H
 

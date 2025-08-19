@@ -1,3 +1,14 @@
+/*
+ * main.c - Main Entry Point
+ *
+ * This file contains the main() function for the Z80 emulator. It handles:
+ *   - Initializing memory and the Z80 CPU state
+ *   - Running the main emulation loop, which processes CPU cycles and keyboard input
+ *   - Cleaning up resources on exit
+ *
+ * The emulator runs until the ESC key (ASCII 27) is pressed.
+ */
+
 #include "mem_test.h"
 #include "utl_public.h"
 #include "z80_public.h"

@@ -1,3 +1,12 @@
+/*
+ * opcodes_iy.c - IY Register Instructions (0xFD Prefix)
+ *
+ * This file defines the opcode table and handlers for the Z80 CPU's IY register
+ * instructions, which are accessed via the 0xFD prefix.
+ *
+ * These include operations using the IY index register.
+ */
+
 #include "opcodes_iy.h"
 #include "z80.h"
 

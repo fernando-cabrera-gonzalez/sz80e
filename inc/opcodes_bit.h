@@ -1,3 +1,9 @@
+/*
+ * opcodes_bit.h - Bit Instructions Interface
+ *
+ * Declares the opcode table and function prototypes for 0xCB-prefixed bit operations.
+ */
+
 #ifndef OPCODES_BIT_H
 #define OPCODES_BIT_H
 

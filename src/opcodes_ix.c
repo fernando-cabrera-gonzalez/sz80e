@@ -1,3 +1,12 @@
+/*
+ * opcodes_ix.c - IX Register Instructions (0xDD Prefix)
+ *
+ * This file defines the opcode table and handlers for the Z80 CPU's IX register
+ * instructions, which are accessed via the 0xDD prefix.
+ *
+ * These include operations using the IX index register.
+ */
+
 #include "opcodes_ix.h"
 #include "z80.h"
 

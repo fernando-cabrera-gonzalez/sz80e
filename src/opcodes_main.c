@@ -1,3 +1,12 @@
+/*
+ * opcodes_main.c - Main Opcode Table (0x00-0xFF)
+ *
+ * This file defines the main opcode table and handlers for the Z80 CPU's
+ * standard instructions (no prefix, 0x00-0xFF).
+ *
+ * Each entry maps an opcode to its handler, instruction length, and cycle count.
+ */
+
 #include "opcodes_main.h"
 #include "z80.h"
 

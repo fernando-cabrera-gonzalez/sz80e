@@ -1,3 +1,9 @@
+/*
+ * opcodes_ix.h - IX Register Instructions Interface
+ *
+ * Declares the opcode tables and function prototypes for 0xDD-prefixed IX operations.
+ */
+
 #ifndef OPCODES_IX_H
 #define OPCODES_IX_H
 

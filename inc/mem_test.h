@@ -1,3 +1,9 @@
+/*
+ * mem_test.h - Memory Interface
+ *
+ * Declares memory allocation, access, and cleanup functions for the emulator.
+ */
+
 #ifndef MEM_TEST_H
 #define MEM_TEST_H
 

@@ -1,3 +1,11 @@
+/*
+ * utl.c - Utility Functions
+ *
+ * This file provides utility functions for file I/O operations, such as
+ * loading and saving binary files. These are used for ROM and memory image
+ * management in the emulator.
+ */
+
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>

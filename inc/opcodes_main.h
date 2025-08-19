@@ -1,3 +1,9 @@
+/*
+ * opcodes_main.h - Main Opcode Table Interface
+ *
+ * Declares the main opcode table and function prototypes for standard instructions (0x00-0xFF).
+ */
+
 #ifndef OPCODES_MAIN_H
 #define OPCODES_MAIN_H
 

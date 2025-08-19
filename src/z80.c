@@ -1,3 +1,15 @@
+/*
+ * z80.c - Core Emulation
+ *
+ * This file implements the core Z80 CPU emulation, including:
+ *   - CPU state and register management
+ *   - Instruction fetch, decode, and execute logic
+ *   - Integration with memory and I/O handlers
+ *   - Support for opcode tables and instruction prefixes
+ *
+ * This is the main engine of the Z80 emulator.
+ */
+
 #include <stdlib.h>
 #include <memory.h>
 

@@ -1,3 +1,16 @@
+/*
+ * mem_test.c - Memory Management
+ *
+ * This file implements memory allocation, read, write, and cleanup functions
+ * for the Z80 emulator. It provides a simple memory model for the emulated system.
+ *
+ * Functions:
+ *   - mem_init:    Allocate and initialize memory
+ *   - mem_read:    Read a byte from memory
+ *   - mem_write:   Write a byte to memory
+ *   - mem_dispose: Free allocated memory
+ */
+
 #include <malloc.h>
 #include <stdint.h>
 
